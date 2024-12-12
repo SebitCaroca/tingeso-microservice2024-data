@@ -1,0 +1,39 @@
+server:
+  port: 8085
+  
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: clientside.CalculateSimulation
+          uri: lb://clientside.CalculateSimulation
+          predicates:
+            - Path=/clientside.CalculateSimulation/**
+        - id: clientside.Clients
+          uri: lb://clientside.Clients
+          predicates:
+            - Path=/clientside.Clients/**
+        - id: clientside.DocumentMortgages
+          uri: lb://clientside.DocumentMortgages
+          predicates:
+            - Path=/clientside.DocumentMortgages/**
+        - id: clientside.Documents
+          uri: lb://clientside.Documents
+          predicates:
+            - Path=/clientside.Documents/**
+        - id: clientside.Mortgages
+          uri: lb://clientside.Mortgages
+          predicates:
+            - Path=/clientside.Mortgages/**
